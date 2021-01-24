@@ -58,11 +58,10 @@ module.exports = {
   searchFriendController: async (req, res) => {
     try {
       const { myEmail, friendEmail } = req.body
-
       if (myEmail !== friendEmail) {
         const checkAccount = await checkActiveAccount(friendEmail)
-        const result = await searchFriend(myEmail, friendEmail)
         if (checkAccount.length > 0) {
+          const result = await searchFriend(myEmail, friendEmail)
           if (result.length > 0) {
             return helper.response(
               res,
@@ -77,7 +76,7 @@ module.exports = {
           return helper.response(res, 400, `Email ${friendEmail}  Not Found`)
         }
       } else {
-        return helper.response(res, 400, `You Can't search you own email`)
+        return helper.response(res, 400, "You Can't search you own email")
       }
     } catch (err) {
       return helper.response(res, 400, 'Bad Request', err)
