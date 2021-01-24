@@ -17,7 +17,7 @@ module.exports = {
   getChat: (roomId) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'select chat_text, room_id, idChat_sender, idChat_recaiver from chat_data where room_id = ? order by created_at ASC',
+        'select chat_text, room_id, idChat_sender, idChat_recaiver, created_at from chat_data where room_id = ? order by created_at ASC',
         roomId,
         (err, result) => {
           !err ? resolve(result) : reject(new Error(err))
@@ -28,7 +28,7 @@ module.exports = {
   getLastChat: (roomId) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'select chat_text, room_id, idChat_sender, idChat_recaiver from chat_data where room_id = ? order by created_at DESC',
+        'select chat_text, room_id, idChat_sender, idChat_recaiver, created_at from chat_data where room_id = ? order by created_at DESC',
         roomId,
         (err, result) => {
           !err ? resolve(result[0]) : reject(new Error(err))
