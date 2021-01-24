@@ -7,8 +7,8 @@ const app = express()
 const routeNavigation = require('./src/routeNavigation')
 const socket = require('socket.io')
 app.use(cors())
-/* app.use(express.static('userImage'))
-app.use(express.static('productImage')) */
+app.use(express.static('userImage'))
+/* app.use(express.static('productImage')) */
 const http = require('http')
 const server = http.createServer(app)
 const io = socket(server, {
