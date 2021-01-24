@@ -6,11 +6,16 @@ const {
   updateStatusUser,
   updateForgotToken,
   getUserAccountbytTokenForgot,
-  updatePasswordForgot
+  updatePasswordForgot,
+  updatePassword,
+  updatePhonenumb,
+  updateUser,
+  userHaslogin
 } = require('../model/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const nodemailer = require('nodemailer')
+const fs = require('fs')
 require('dotenv').config()
 module.exports = {
   userRegister: async (req, res) => {
@@ -103,6 +108,10 @@ module.exports = {
                 userEmail,
                 statusUser
               }
+              const UpdateLoginData = {
+                login_date: new Date()
+              }
+              await userHaslogin(UpdateLoginData, userId)
               const token = jwt.sign(payload, process.env.code_secretJWT, {
                 expiresIn: '3h'
               })
@@ -253,6 +262,109 @@ module.exports = {
           404,
           "You haven't activated your account yet"
         )
+      }
+    } catch (err) {
+      return helper.response(res, 400, 'Bad Request', err)
+    }
+  },
+  updatePassword: async (req, res) => {
+    try {
+      const { id } = req.params
+      const { newPassword } = req.body
+      const salt = bcrypt.genSaltSync(10)
+      const encryptPassword = bcrypt.hashSync(newPassword, salt)
+      const setData = {
+        password: encryptPassword,
+        update_at: new Date()
+      }
+      await updatePassword(setData, id)
+      return helper.response(res, 200, 'Update your Password Succesfully')
+    } catch (err) {
+      return helper.response(res, 400, 'Bad Request', err)
+    }
+  },
+  updatePhonenumber: async (req, res) => {
+    try {
+      const { id } = req.params
+      const { phoneNumber } = req.body
+      const setData = {
+        phone_number: phoneNumber,
+        update_at: new Date()
+      }
+      await updatePhonenumb(setData, id)
+      return helper.response(res, 200, 'Update your phone number Succesfully')
+    } catch (err) {
+      return helper.response(res, 400, 'Bad Request', err)
+    }
+  },
+  updateUser: async (req, res) => {
+    try {
+      const { userEmail } = req.params
+      const checkAccount = await getUserAccountModel(userEmail)
+      const { fullName, userName, bioGrap } = req.body
+      if (checkAccount.length > 0) {
+        let imageUser
+        if (req.file === undefined) {
+          imageUser = {
+            image_user: checkAccount[0].image_user
+          }
+        } else if (checkAccount[0].image_user === '') {
+          imageUser = {
+            image_user: req.file === undefined ? '' : req.file.filename
+          }
+        } else if (req.file.filename !== checkAccount[0].image_user) {
+          fs.unlink(`./userImage/${checkAccount[0].image_user}`, (err) => {
+            if (err) throw err
+            // if no error, file has been deleted successfully
+            console.log(`Success Delete Image ${checkAccount[0].image_user}`)
+          })
+          imageUser = {
+            image_user: req.file === undefined ? '' : req.file.filename
+          }
+        }
+
+        const setData = {
+          fullname: fullName,
+          username: userName,
+          bio: bioGrap
+        }
+        const Setfull = { ...setData, ...imageUser }
+        const result = await updateUser(Setfull, userEmail)
+        return helper.response(
+          res,
+          200,
+          'Update your Account Succesfully',
+          result
+        )
+      } else {
+        fs.unlink(`./userImage/${req.file.filename}`, (err) => {
+          if (err) throw err
+        })
+        return helper.response(res, 404, 'Email Not Registered')
+      }
+    } catch (err) {
+      return helper.response(res, 400, 'Bad Request', err)
+    }
+  },
+  updateLocation: async (req, res) => {
+    try {
+      const { userEmail } = req.params
+      const checkAccount = await getUserAccountModel(userEmail)
+      const { lat, long } = req.body
+      if (checkAccount.length > 0) {
+        const setData = {
+          lat,
+          long
+        }
+        const result = await updateUser(setData, userEmail)
+        return helper.response(
+          res,
+          200,
+          'Update your Location Succesfully',
+          result
+        )
+      } else {
+        return helper.response(res, 404, 'Email Not Registered')
       }
     } catch (err) {
       return helper.response(res, 400, 'Bad Request', err)
