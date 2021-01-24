@@ -93,5 +93,65 @@ module.exports = {
         }
       )
     })
+  },
+  updatePassword: (setData, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'update user_account set ? where id_user = ?',
+        [setData, id],
+        (err, result) => {
+          const newResult = {
+            id_user: id,
+            ...setData
+          }
+          !err ? resolve(newResult) : reject(new Error(err))
+        }
+      )
+    })
+  },
+  userHaslogin: (setData, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'update user_account set ? where id_user = ?',
+        [setData, id],
+        (err, result) => {
+          const newResult = {
+            id_user: id,
+            ...setData
+          }
+          !err ? resolve(newResult) : reject(new Error(err))
+        }
+      )
+    })
+  },
+  updatePhonenumb: (setData, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'update user_account set ? where id_user = ?',
+        [setData, id],
+        (err, result) => {
+          const newResult = {
+            id_user: id,
+            ...setData
+          }
+          !err ? resolve(newResult) : reject(new Error(err))
+        }
+      )
+    })
+  },
+  updateUser: (setData, email) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'update user_account set ? where user_email = ?',
+        [setData, email],
+        (err, result) => {
+          const newResult = {
+            user_email: email,
+            ...setData
+          }
+          !err ? resolve(newResult) : reject(new Error(err))
+        }
+      )
+    })
   }
 }
