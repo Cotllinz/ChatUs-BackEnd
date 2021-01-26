@@ -1,6 +1,6 @@
 <h1 align="center">ExpressJS - Chat.us RESTfull API</h1>
 
-![alt text](https://github.com/Cotllinz/Anya_coffee/blob/main/Background_application/View%20Application.PNG)
+![alt text](https://github.com/Cotllinz/ChatUs-FrontEnd/blob/master/src/assets/Bg%20Image.PNG)
 [More about Express](https://en.wikipedia.org/wiki/Express.js)
 
 ## Built With
