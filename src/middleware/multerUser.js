@@ -37,7 +37,7 @@ const uploadFilterUser = (req, res, next) => {
     /*   console.log(err) */
     if (err && err.code === 'LIMIT_FILE_SIZE') {
       // A Multer error occurred when uploading.
-      return helper.response(res, 400, 'Max File Size 5 Mb')
+      return helper.response(res, 400, 'Max File Size 2 Mb')
     } else if (err instanceof multer.MulterError) {
       return helper.response(res, 400, err.message)
     } else if (err) {

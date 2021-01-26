@@ -83,6 +83,37 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', err)
     }
   },
+
+  createRoom: async (req, res) => {
+    try {
+      const { idSender, idRequest } = req.body
+      const checkRoom = await getRoom(idSender, idRequest)
+      if (checkRoom.length <= 0) {
+        const randomRoom = Math.floor(Math.random() * Math.floor(19999))
+        const setRoom1 = {
+          room_id: randomRoom,
+          id_sender: idSender,
+          id_receiver: idRequest,
+          created_at: new Date(),
+          updated_at: new Date()
+        }
+        await createRoom(setRoom1)
+        const setRoom2 = {
+          room_id: randomRoom,
+          id_sender: idRequest,
+          id_receiver: idSender,
+          created_at: new Date(),
+          updated_at: new Date()
+        }
+        const result = await createRoom(setRoom2)
+        return helper.response(res, 200, 'Success Create Room', result)
+      } else {
+        return helper.response(res, 200, 'Success Get Old Room', checkRoom)
+      }
+    } catch (err) {
+      return helper.response(res, 400, 'Bad Request', err)
+    }
+  },
   getRoomlist: async (req, res) => {
     try {
       const { id } = req.params
