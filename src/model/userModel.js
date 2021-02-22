@@ -124,6 +124,21 @@ module.exports = {
       )
     })
   },
+  userHaslogout: (setData, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'update user_account set ? where id_user = ?',
+        [setData, id],
+        (err, result) => {
+          const newResult = {
+            id_user: id,
+            ...setData
+          }
+          !err ? resolve(newResult) : reject(new Error(err))
+        }
+      )
+    })
+  },
   updatePhonenumb: (setData, id) => {
     return new Promise((resolve, reject) => {
       connection.query(

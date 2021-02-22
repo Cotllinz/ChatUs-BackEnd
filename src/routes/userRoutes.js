@@ -9,7 +9,8 @@ const {
   updatePassword,
   updatePhonenumber,
   updateUser,
-  updateLocation
+  updateLocation,
+  logoutUser
 } = require('../controller/userController')
 const multerImage = require('../middleware/multerUser')
 const { AuthCheckAccount } = require('../middleware/auth')
@@ -21,6 +22,7 @@ route.post('/sendForgotkeys', sendEmailForgorPassword)
 route.patch('/resetPassword', updatePasswordForgot)
 route.patch('/updatePass/:id', updatePassword)
 route.patch('/updatePhone/:id', updatePhonenumber)
+route.patch('/logout/:id', logoutUser)
 route.patch('/updateLocation/:userEmail', updateLocation)
 route.patch('/updateUser/:userEmail', multerImage, updateUser)
 module.exports = route

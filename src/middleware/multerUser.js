@@ -6,14 +6,12 @@ const storageUser = multer.diskStorage({
     cb(null, './userImage')
   },
   filename: (req, file, cb) => {
-    /*   console.log(file) */
     cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname)
   }
 })
 /* ================================================ */
 
 const fileFilter = (req, file, cb) => {
-  /* console.log(file) */
   if (
     file.mimetype === 'image/jpeg' ||
     file.mimetype === 'image/png' ||
@@ -34,7 +32,6 @@ const uploadUser = multer({
 
 const uploadFilterUser = (req, res, next) => {
   uploadUser(req, res, (err) => {
-    /*   console.log(err) */
     if (err && err.code === 'LIMIT_FILE_SIZE') {
       // A Multer error occurred when uploading.
       return helper.response(res, 400, 'Max File Size 2 Mb')

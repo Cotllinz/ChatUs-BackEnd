@@ -10,7 +10,8 @@ const {
   updatePassword,
   updatePhonenumb,
   updateUser,
-  userHaslogin
+  userHaslogin,
+  userHaslogout
 } = require('../model/userModel')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -57,7 +58,7 @@ module.exports = {
             subject: `Hello ${userName}, I'm from ChatUs`,
             html: `<h2>Welcome at ChatUs before you chatting with your friend Please Activation  Your Account First on this Button</h2>
                   <p>Click This Link For Activation your account</p>
-                  <a href ="http://localhost:8081/confirm_email/${result.token_confirmemail}">Activation Email</a>`
+                  <a href ="https://chatuss.netlify.app/confirm_email/${result.token_confirmemail}">Activation Email</a>`
           }
           transporter.sendMail(mailOPtion, (err, result) => {
             if (err) {
@@ -204,7 +205,7 @@ module.exports = {
           subject: `Hello ${checkEmail[0].username}, I'm from ChatUs`,
           html: `<h2>I Got News you forgot your password if you want to re-new your password click this link</h2>
                   <p>Click This Link For re-new your password</p>
-                  <a href ="http://localhost:8081/resetpassword/${result.token_forgotpassword}">Activation Email</a>`
+                  <a href ="https://chatuss.netlify.app/resetpassword/${result.token_forgotpassword}">Activation Email</a>`
         }
         transporter.sendMail(mailOPtion, (err, result) => {
           if (err) {
@@ -283,6 +284,18 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', err)
     }
   },
+  logoutUser: async (req, res) => {
+    try {
+      const { id } = req.params
+      const UpdateLogoutdata = {
+        login_date: '0000-00-00 00:00:00'
+      }
+      await userHaslogout(UpdateLogoutdata, id)
+      return helper.response(res, 200, 'Logout Success Succesfully')
+    } catch (err) {
+      return helper.response(res, 400, 'Bad Request', err)
+    }
+  },
   updatePhonenumber: async (req, res) => {
     try {
       const { id } = req.params
@@ -308,16 +321,24 @@ module.exports = {
           imageUser = {
             image_user: checkAccount[0].image_user
           }
-        } else if (checkAccount[0].image_user === '') {
+        } else if (
+          checkAccount[0].image_user === null ||
+          checkAccount[0].image_user === ''
+        ) {
           imageUser = {
             image_user: req.file === undefined ? '' : req.file.filename
           }
         } else if (req.file.filename !== checkAccount[0].image_user) {
-          fs.unlink(`./userImage/${checkAccount[0].image_user}`, (err) => {
-            if (err) throw err
-            // if no error, file has been deleted successfully
-            console.log(`Success Delete Image ${checkAccount[0].image_user}`)
-          })
+          fs.stat(
+            `./userImage/${checkAccount[0].image_user}`,
+            function (_err, stats) {
+              fs.unlink(`./userImage/${checkAccount[0].image_user}`, (_err) => {
+                console.log(
+                  `Success Delete Image ${checkAccount[0].image_user}`
+                )
+              })
+            }
+          )
           imageUser = {
             image_user: req.file === undefined ? '' : req.file.filename
           }
