@@ -1,6 +1,19 @@
-<h1 align="center">ExpressJS - Chat.us RESTfull API</h1>
+<h1 align='center'>Express JS - Chat.us</h1>
+  <p align="center">
+    <a href="https://chatuss.netlify.app/">View Demo</a>
+    ·
+    <a href="https://github.com/Cotllinz/ChatUs-BackEnd/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Cotllinz/ChatUs-BackEnd/pulls">Request Feature</a>
+  </p>
 
-![alt text](https://github.com/Cotllinz/ChatUs-FrontEnd/blob/master/src/assets/Bg%20Image.PNG)
+![Image Banner](https://raw.githubusercontent.com/Cotllinz/ChatUs-FrontEnd/master/smartmockups_klg56n1d.jpg)
+
+## About The Project
+
+Chat Us is a website realtime that made for chating with other people maybe your friend or your family with automatic update location in this apps
+this website build with tools etc. Vue, Express,js Mysql, Node.js.
+
 [More about Express](https://en.wikipedia.org/wiki/Express.js)
 
 ## Built With
@@ -35,7 +48,6 @@ HOST=127.0.0.1 // Database host
 USER=root // Database username
 PASS=  // Database Password
 DATABASE=chatus_database // Database name
-ZONE=UTC // Database Time Zone
 PORT=3000 // My Using PORT
 code_secretJWT // Secret Code JWT
 email = test@gmail.com // email for nodemailer
