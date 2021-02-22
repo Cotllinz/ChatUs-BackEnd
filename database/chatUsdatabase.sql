@@ -19,70 +19,70 @@ USE `chatus_database`;
 -- Dumping structure for table chatus_database.chat_data
 CREATE TABLE IF NOT EXISTS `chat_data` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `room_id` int(20) NOT NULL,
-  `idChat_sender` int(20) NOT NULL,
-  `idChat_recaiver` int(20) NOT NULL,
-  `chat_text` text NOT NULL,
+  `room_id` int(20) DEFAULT NULL,
+  `idChat_sender` int(20) DEFAULT NULL,
+  `idChat_recaiver` int(20) DEFAULT NULL,
+  `chat_text` text DEFAULT NULL,
   `status_read` enum('Read','Not Read') NOT NULL DEFAULT 'Not Read',
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table chatus_database.chat_data: ~57 rows (approximately)
+-- Dumping data for table chatus_database.chat_data: ~0 rows (approximately)
 /*!40000 ALTER TABLE `chat_data` DISABLE KEYS */;
 /*!40000 ALTER TABLE `chat_data` ENABLE KEYS */;
 
 -- Dumping structure for table chatus_database.friend_list
 CREATE TABLE IF NOT EXISTS `friend_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_idRequest` int(11) NOT NULL,
-  `user_idResponse` int(11) NOT NULL,
+  `user_idRequest` int(11) DEFAULT NULL,
+  `user_idResponse` int(11) DEFAULT NULL,
   `friend_status` enum('Accept','Waiting') NOT NULL DEFAULT 'Waiting',
   `created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table chatus_database.friend_list: ~8 rows (approximately)
+-- Dumping data for table chatus_database.friend_list: ~0 rows (approximately)
 /*!40000 ALTER TABLE `friend_list` DISABLE KEYS */;
 /*!40000 ALTER TABLE `friend_list` ENABLE KEYS */;
 
 -- Dumping structure for table chatus_database.room_list
 CREATE TABLE IF NOT EXISTS `room_list` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `room_id` int(20) NOT NULL,
-  `id_sender` int(11) NOT NULL,
-  `id_receiver` int(11) NOT NULL,
+  `room_id` int(20) DEFAULT NULL,
+  `id_sender` int(11) DEFAULT NULL,
+  `id_receiver` int(11) DEFAULT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table chatus_database.room_list: ~9 rows (approximately)
+-- Dumping data for table chatus_database.room_list: ~0 rows (approximately)
 /*!40000 ALTER TABLE `room_list` DISABLE KEYS */;
 /*!40000 ALTER TABLE `room_list` ENABLE KEYS */;
 
 -- Dumping structure for table chatus_database.user_account
 CREATE TABLE IF NOT EXISTS `user_account` (
   `id_user` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(100) NOT NULL,
-  `fullname` varchar(150) NOT NULL,
-  `user_email` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `password` varchar(150) NOT NULL,
-  `phone_number` varchar(50) NOT NULL,
-  `bio` varchar(150) NOT NULL,
-  `image_user` varchar(150) NOT NULL,
-  `lat` varchar(150) NOT NULL,
-  `long` varchar(150) NOT NULL,
-  `login_date` datetime NOT NULL,
-  `token_confirmemail` varchar(100) NOT NULL,
-  `token_forgotpassword` varchar(100) NOT NULL,
+  `username` varchar(100) DEFAULT NULL,
+  `fullname` varchar(150) NOT NULL DEFAULT '',
+  `user_email` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `password` varchar(150) DEFAULT NULL,
+  `phone_number` varchar(50) NOT NULL DEFAULT '',
+  `bio` varchar(150) NOT NULL DEFAULT '',
+  `image_user` varchar(150) DEFAULT NULL,
+  `lat` varchar(150) NOT NULL DEFAULT '',
+  `long` varchar(150) NOT NULL DEFAULT '',
+  `login_date` datetime DEFAULT NULL,
+  `token_confirmemail` varchar(100) NOT NULL DEFAULT '',
+  `token_forgotpassword` varchar(100) NOT NULL DEFAULT '',
   `status_user` enum('Active','Not Active') NOT NULL DEFAULT 'Not Active',
   `create_at` datetime NOT NULL,
-  `update_at` datetime NOT NULL,
+  `update_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id_user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
--- Dumping data for table chatus_database.user_account: ~5 rows (approximately)
+-- Dumping data for table chatus_database.user_account: ~6 rows (approximately)
 /*!40000 ALTER TABLE `user_account` DISABLE KEYS */;
 INSERT INTO `user_account` (`id_user`, `username`, `fullname`, `user_email`, `password`, `phone_number`, `bio`, `image_user`, `lat`, `long`, `login_date`, `token_confirmemail`, `token_forgotpassword`, `status_user`, `create_at`, `update_at`) VALUES
 	(1, 'Galeh', 'Rudy Galeh', 'co.tlinz121@gmail.com', '$2b$10$4dqH.xApoIaHnmckBGPHI.IeMMrNAKYwjE8bKRQi6hqg7yd27wTqK', '082350775250', 'Founder Chat.Us', '2021-01-26T03-11-24.422Zindex.jpg', '-1.1988807', '116.88636590000002', '0000-00-00 00:00:00', '0d882b32c05a89e5736e06da81f133', '', 'Active', '2021-01-20 19:27:59', '2021-02-20 13:23:06'),
