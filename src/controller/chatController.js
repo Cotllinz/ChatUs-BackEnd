@@ -30,6 +30,7 @@ module.exports = {
         const updateDateroom = {
           updated_at: new Date()
         }
+        await updateStatusRead(checkRoom[0].room_id, idSender)
         const rooms = parseInt(result.room_id)
         await updateRoomDate(updateDateroom, rooms)
         return helper.response(res, 200, 'Chat Success', result)
@@ -59,6 +60,7 @@ module.exports = {
           created_at: new Date()
         }
         const result = await createChat(setData)
+        await updateStatusRead(result.room_id, idSender)
         return helper.response(res, 200, 'Chat Success', result)
       }
     } catch (err) {
@@ -83,7 +85,6 @@ module.exports = {
       return helper.response(res, 400, 'Bad Request', err)
     }
   },
-
   createRoom: async (req, res) => {
     try {
       const { idSender, idRequest } = req.body
@@ -110,6 +111,15 @@ module.exports = {
       } else {
         return helper.response(res, 200, 'Success Get Old Room', checkRoom)
       }
+    } catch (err) {
+      return helper.response(res, 400, 'Bad Request', err)
+    }
+  },
+  readingChat: async (req, res) => {
+    try {
+      const { idRoom, iduser } = req.body
+      const result = await updateStatusRead(idRoom, iduser)
+      return helper.response(res, 200, 'Success Read Chat', result)
     } catch (err) {
       return helper.response(res, 400, 'Bad Request', err)
     }
